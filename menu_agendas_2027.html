@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Maestro · Agendas Mágicas 2027 · El Crisol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@500;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070503;
+      --card-bg: rgba(18, 14, 10, 0.92);
+      --gold: #d97706;
+      --gold-light: #fbbf24;
+      --gold-bright: #fef08a;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg) radial-gradient(circle at 50% 20%, rgba(217, 119, 6, 0.12) 0%, transparent 70%);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      color: var(--text);
+      min-height: 100vh;
+      padding: 30px 20px 60px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .header-banner {
+      text-align: center;
+      max-width: 900px;
+      margin-bottom: 35px;
+    }
+    .hat-badge { font-size: 42px; margin-bottom: 8px; filter: drop-shadow(0 4px 12px rgba(217,119,6,0.5)); }
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      color: var(--gold-light);
+      margin-bottom: 10px;
+      text-shadow: 0 2px 15px rgba(0,0,0,0.8);
+    }
+    .subtitle {
+      font-size: 18px;
+      color: var(--gold-bright);
+      font-style: italic;
+      margin-bottom: 15px;
+    }
+    .guide-card {
+      background: var(--card-bg);
+      border: 1.5px solid rgba(217, 119, 6, 0.5);
+      border-radius: 16px;
+      padding: 22px 28px;
+      max-width: 960px;
+      width: 100%;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+    }
+    .guide-title {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 15px;
+    }
+    .step-item {
+      background: rgba(10, 8, 5, 0.75);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--gold-light);
+      margin-bottom: 5px;
+    }
+    .step-text {
+      font-size: 14px;
+      color: #e2e8f0;
+      line-height: 1.4;
+    }
+
+    /* GRID DE LAS 6 AGENDAS */
+    .agendas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 25px;
+      max-width: 1100px;
+      width: 100%;
+    }
+    .agenda-card {
+      background: var(--card-bg);
+      border: 1.5px solid rgba(217, 119, 6, 0.5);
+      border-radius: 14px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+      transition: all 0.25s;
+    }
+    .agenda-card:hover {
+      border-color: var(--gold-light);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 35px rgba(217, 119, 6, 0.35);
+    }
+    .cover-thumb {
+      width: 100%;
+      height: 230px;
+      border-radius: 8px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin-bottom: 14px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.9);
+      border: 1px solid rgba(217, 119, 6, 0.4);
+    }
+    .card-name {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--gold-bright);
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+    .card-desc {
+      font-size: 13px;
+      color: #cbd5e1;
+      font-style: italic;
+      line-height: 1.35;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+    .card-btns {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+    .btn-card {
+      flex: 1;
+      padding: 9px 12px;
+      border-radius: 20px;
+      font-family: 'Cinzel', serif;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-main {
+      background: linear-gradient(135deg, #b45309, #d97706);
+      color: #000;
+      box-shadow: 0 4px 12px rgba(217,119,6,0.4);
+    }
+    .btn-main:hover {
+      background: linear-gradient(135deg, #d97706, #fbbf24);
+      transform: scale(1.03);
+    }
+    .btn-sub {
+      background: rgba(217,119,6,0.18);
+      color: var(--gold-light);
+      border: 1px solid rgba(217,119,6,0.5);
+    }
+    .btn-sub:hover {
+      background: rgba(217,119,6,0.35);
+      color: #fff;
+    }
+    .copy-btn {
+      margin-top: 10px;
+      width: 100%;
+      background: none;
+      border: 1px dashed rgba(217,119,6,0.4);
+      color: var(--gold-light);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 6px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .copy-btn:hover {
+      background: rgba(217,119,6,0.2);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-banner">
+    <div class="hat-badge">🎩</div>
+    <h1>AGENDAS MÁGICAS 2027 · EL CRISOL</h1>
+    <div class="subtitle">Colección de Ediciones Exclusivas · Diseño Negro Obsidiana & Pan de Oro</div>
+  </div>
+
+  <!-- GUÍA DE ACCESO Y USO -->
+  <div class="guide-card">
+    <div class="guide-title">
+      <span>📖</span>
+      <span>CÓMO ENTRAR Y DISFRUTAR DE TU AGENDA INTERACTIVA</span>
+    </div>
+    <p style="font-size:15px; color:#cbd5e1; line-height:1.5;">
+      Cada agenda es una experiencia digital privada que funciona directamente en el navegador de tu móvil, tablet u ordenador, sin instalar ninguna aplicación. Guarda automáticamente tus notas y citas en tu dispositivo.
+    </p>
+    <div class="steps-grid">
+      <div class="step-item">
+        <div class="step-num">PASO 1 · ABRIR</div>
+        <div class="step-text">Pincha en el enlace personal. En la pantalla inicial verás la cubierta dorada con las velas: haz clic sobre ella para abrir el libro en la semana actual.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">PASO 2 · PASAR PÁGINAS</div>
+        <div class="step-text">Usa los botones dorados ◀ y ▶ en los bordes, pulsa las esquinas de cada página, haz clic en cualquier margen o usa la rueda del ratón para ver el giro 3D con sonido real.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">PASO 3 · ESCRIBIR NOTAS</div>
+        <div class="step-text">Haz clic en cualquier día (Lunes a Domingo) para apuntar tus prioridades, citas o tareas. El texto se guarda al instante sin perder nada al recargar.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">PASO 4 · COPIA IMPRESA</div>
+        <div class="step-text">Si prefieres tener tu agenda en papel noble, puedes descargar el PDF editorial de 55 páginas listo para encuadernar o imprimir en formato A5.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESCAPARATE DE LAS 6 EDICIONES -->
+  <div class="agendas-grid">
+
+    <!-- 1. ARANTXA -->
+    <div class="agenda-card">
+      <div class="cover-thumb" style="background-image: url('PORTADA_AGENDA_2027_ARANTXA.png');"></div>
+      <div class="card-name">Edición Arantxa</div>
+      <div class="card-desc">Con retrato personal en primer plano como marca de agua, dedicatoria íntima y calendario 2027 completo.</div>
+      <div class="card-btns">
+        <a href="agenda_2027_ARANTXA_v2.html" class="btn-card btn-main" target="_blank">📖 Abrir Agenda 3D</a>
+        <a href="AGENDA_2027_Arantxa.pdf" class="btn-card btn-sub" target="_blank">📄 PDF A5 (55 Pág)</a>
+      </div>
+      <button class="copy-btn" onclick="copiarTexto('Arantxa', 'agenda_2027_ARANTXA_v2.html')">📋 Copiar Mensaje WhatsApp</button>
+    </div>
+
+    <!-- 2. LOS TXAPAJO -->
+    <div class="agenda-card">
+      <div class="cover-thumb" style="background-image: url('PORTADA_AGENDA_2027_LOS_TXAPAJO.png');"></div>
+      <div class="card-name">Edición Los Txapajo</div>
+      <div class="card-desc">Para toda la banda, con foto grupal en marca de agua, bolos, ensayos y dedicatoria rockera para 2027.</div>
+      <div class="card-btns">
+        <a href="agenda_2027_Los_Txapajo.html" class="btn-card btn-main" target="_blank">📖 Abrir Agenda 3D</a>
+        <a href="AGENDA_2027_Los_Txapajo.pdf" class="btn-card btn-sub" target="_blank">📄 PDF A5 (55 Pág)</a>
+      </div>
+      <button class="copy-btn" onclick="copiarTexto('Los Txapajo', 'agenda_2027_Los_Txapajo.html')">📋 Copiar Mensaje WhatsApp</button>
+    </div>
+
+    <!-- 3. JORGE -->
+    <div class="agenda-card">
+      <div class="cover-thumb" style="background-image: url('PORTADA_AGENDA_2027_JORGE.png');"></div>
+      <div class="card-name">Edición Jorge</div>
+      <div class="card-desc">Enfoque estratégico en victorias, constancia y chistera 3D oficial de Mr. Jouli grabada en oro.</div>
+      <div class="card-btns">
+        <a href="agenda_2027_Jorge.html" class="btn-card btn-main" target="_blank">📖 Abrir Agenda 3D</a>
+        <a href="AGENDA_2027_Jorge.pdf" class="btn-card btn-sub" target="_blank">📄 PDF A5 (55 Pág)</a>
+      </div>
+      <button class="copy-btn" onclick="copiarTexto('Jorge', 'agenda_2027_Jorge.html')">📋 Copiar Mensaje WhatsApp</button>
+    </div>
+
+    <!-- 4. ALBERTO -->
+    <div class="agenda-card">
+      <div class="cover-thumb" style="background-image: url('PORTADA_AGENDA_2027_ALBERTO.png');"></div>
+      <div class="card-name">Edición Alberto</div>
+      <div class="card-desc">Proyectos firmes, dedicatoria de templanza y éxito, y marco imperial sobre negro obsidiana.</div>
+      <div class="card-btns">
+        <a href="agenda_2027_Alberto.html" class="btn-card btn-main" target="_blank">📖 Abrir Agenda 3D</a>
+        <a href="AGENDA_2027_Alberto.pdf" class="btn-card btn-sub" target="_blank">📄 PDF A5 (55 Pág)</a>
+      </div>
+      <button class="copy-btn" onclick="copiarTexto('Alberto', 'agenda_2027_Alberto.html')">📋 Copiar Mensaje WhatsApp</button>
+    </div>
+
+    <!-- 5. SANTI -->
+    <div class="agenda-card">
+      <div class="cover-thumb" style="background-image: url('PORTADA_AGENDA_2027_SANTI.png');"></div>
+      <div class="card-name">Edición Santi</div>
+      <div class="card-desc">Ilusión renovada, metas claras y dedicatoria personalizada con el sello de cera de El Crisol.</div>
+      <div class="card-btns">
+        <a href="agenda_2027_Santi.html" class="btn-card btn-main" target="_blank">📖 Abrir Agenda 3D</a>
+        <a href="AGENDA_2027_Santi.pdf" class="btn-card btn-sub" target="_blank">📄 PDF A5 (55 Pág)</a>
+      </div>
+      <button class="copy-btn" onclick="copiarTexto('Santi', 'agenda_2027_Santi.html')">📋 Copiar Mensaje WhatsApp</button>
+    </div>
+
+    <!-- 6. ELENA MARTÍN / GRIMAX -->
+    <div class="agenda-card">
+      <div class="cover-thumb" style="background-image: url('PORTADA_AGENDA_2027_ELENA_MARTIN.png');"></div>
+      <div class="card-name">Edición Elena Martín</div>
+      <div class="card-desc">Edición de lujo con marco ornamental barroco, energía astral y dedicatoria personalizada para 2027.</div>
+      <div class="card-btns">
+        <a href="agenda_2027_Elena_Martin.html" class="btn-card btn-main" target="_blank">📖 Abrir Agenda 3D</a>
+        <a href="agenda_2027_Elena_Martin.html" class="btn-card btn-sub" target="_blank">📄 Ver Interior</a>
+      </div>
+      <button class="copy-btn" onclick="copiarTexto('Elena Martín', 'agenda_2027_Elena_Martin.html')">📋 Copiar Mensaje WhatsApp</button>
+    </div>
+
+  </div>
+
+  <script>
+        function copiarTexto(nombre, relativeFile) {
+      const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+      const link = relativeFile.startsWith('http') ? relativeFile : baseUrl + relativeFile;
+      const msg = ;
+      
+      navigator.clipboard.writeText(msg).then(() => {
+        alert("✨ ¡Mensaje para " + nombre + " copiado al portapapeles! Listo para pegar en WhatsApp o correo.
+
+Enlace: " + link);
+      }).catch(() => {
+        prompt("Copia este mensaje:", msg);
+      });
+    },\nTe he preparado una edición exclusiva y personalizada de la Agenda 2027 en formato interactivo 3D y negro obsidiana con pan de oro.\n\n👉 *Accede aquí:* ${link}\n\n✨ *Cómo usarla:*\n1. Haz clic en la cubierta dorada para abrir el libro.\n2. Pasa las páginas haciendo clic en los márgenes, con las flechas o con la rueda del ratón para ver el giro 3D.\n3. Puedes escribir tus notas directamente en cada día y se guardarán automáticamente en tu dispositivo.\n\n¡Que este 2027 sea un año lleno de éxitos y grandes momentos! 🎩✨`;
+      
+      navigator.clipboard.writeText(msg).then(() => {
+        alert("✨ ¡Mensaje para " + nombre + " copiado al portapapeles! Listo para pegar en WhatsApp o correo.");
+      }).catch(() => {
+        prompt("Copia este texto:", msg);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda Mágica 2027 · Edición Santi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@500;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #080605;
+      --page-black: #0d0a07;
+      --gold-primary: #d97706;
+      --gold-light: #fbbf24;
+      --gold-bright: #fef08a;
+      --gold-dark: #78350f;
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 50% 30%, rgba(217, 119, 6, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 50% 80%, rgba(0, 0, 0, 0.95) 0%, #050403 100%);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-main);
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    /* BARRA SUPERIOR ELEGANTE */
+    .top-toolbar {
+      width: 100%;
+      max-width: 1040px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      margin-top: 8px;
+      background: rgba(18, 14, 10, 0.88);
+      border: 1.5px solid rgba(217, 119, 6, 0.45);
+      border-radius: 40px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+      z-index: 100;
+    }
+
+    .top-toolbar .title-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, #b45309, #d97706);
+      color: #000;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 12.5px;
+      padding: 7px 16px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-action:hover {
+      background: linear-gradient(135deg, #d97706, #fbbf24);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(251, 191, 36, 0.5);
+    }
+
+    .nav-pill-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 4px 14px;
+      border-radius: 25px;
+      border: 1.2px solid rgba(217, 119, 6, 0.5);
+    }
+
+    .nav-pill-btn {
+      background: none;
+      border: none;
+      color: var(--gold-light);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 3px 8px;
+      transition: transform 0.15s;
+    }
+    .nav-pill-btn:hover {
+      color: #fff;
+      transform: scale(1.25);
+    }
+    .nav-pill-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--gold-bright);
+      letter-spacing: 1px;
+      min-width: 140px;
+      text-align: center;
+    }
+
+    /* CONTENEDOR ESCÉNICO DEL LIBRO */
+    .stage-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 0 30px 0;
+      width: 100%;
+      position: relative;
+    }
+
+    /* BOTONES FLOTANTES GIGANTES LATERALES CON MÁXIMO Z-INDEX */
+    .float-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: rgba(18, 14, 10, 0.96);
+      border: 2.5px solid var(--gold-light);
+      color: var(--gold-bright);
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(217, 119, 6, 0.6);
+      z-index: 999999;
+      transition: all 0.2s;
+    }
+    .float-nav-btn:hover {
+      background: var(--gold-light);
+      color: #000;
+      transform: translateY(-50%) scale(1.15);
+      box-shadow: 0 10px 35px rgba(251, 191, 36, 0.85);
+    }
+    .float-prev { left: 20px; }
+    .float-next { right: 20px; }
+
+    /* EL LIBRO Y SUS ESTADOS */
+    .book-wrapper {
+      position: relative;
+      width: 1020px;
+      height: 640px;
+      perspective: 2000px;
+    }
+
+    /* ESTADO CERRADO: CUBIERTA FOTOGRÁFICA MAESTRA CON VELAS Y CHISTERA */
+    .cover-closed-stage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("PORTADA_AGENDA_2027_SANTI.png") center center / contain no-repeat;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding-bottom: 25px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+      z-index: 50;
+    }
+
+    .cover-closed-stage:hover .click-prompt {
+      background: rgba(217, 119, 6, 0.95);
+      color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(251, 191, 36, 0.8);
+    }
+
+    .click-prompt {
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 2px;
+      color: var(--gold-bright);
+      background: rgba(12, 9, 6, 0.85);
+      border: 1.5px solid var(--gold-light);
+      padding: 10px 28px;
+      border-radius: 30px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8);
+      transition: all 0.2s;
+    }
+
+    /* ESTADO ABIERTO: DOS PÁGINAS NEGRO OBSIDIANA */
+    .book-interior {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      background: #080605;
+      border-radius: 14px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 40px rgba(0, 0, 0, 0.8);
+      z-index: 20;
+    }
+
+    @keyframes flipEffect {
+      0% { opacity: 0.75; transform: scale(0.995); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .page-flip-anim {
+      animation: flipEffect 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .book-spine-crease {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 22px;
+      height: 100%;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, 
+        rgba(0,0,0,0.88) 0%, 
+        rgba(0,0,0,0.1) 40%, 
+        rgba(217, 119, 6, 0.2) 50%, 
+        rgba(0,0,0,0.1) 60%, 
+        rgba(0,0,0,0.88) 100%);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .page {
+      width: 510px;
+      height: 640px;
+      background: radial-gradient(circle at 50% 50%, #15100a 0%, #0b0805 100%);
+      padding: 24px 28px 18px 28px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page.left {
+      border-top-left-radius: 14px;
+      border-bottom-left-radius: 14px;
+      border-right: 1px solid rgba(0,0,0,0.8);
+      cursor: pointer;
+    }
+    .page.right {
+      border-top-right-radius: 14px;
+      border-bottom-right-radius: 14px;
+      border-left: 1px solid rgba(0,0,0,0.8);
+      cursor: pointer;
+    }
+
+    /* DOBLE RIBETE ORNAMENTAL EN PAN DE ORO */
+    .page::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      border: 2px solid rgba(217, 119, 6, 0.7);
+      border-radius: 8px;
+      pointer-events: none;
+      z-index: 4;
+    }
+    .page::after {
+      content: "";
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      bottom: 14px;
+      border: 1px dashed rgba(251, 191, 36, 0.35);
+      border-radius: 6px;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    /* BOTONES DE CABECERA PARA PASAR PÁGINA */
+    .page-flip-header-btn {
+      background: rgba(217, 119, 6, 0.25);
+      border: 1.5px solid var(--gold-light);
+      color: var(--gold-bright);
+      font-family: 'Cinzel', serif;
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 5px 14px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .page-flip-header-btn:hover {
+      background: var(--gold-light);
+      color: #000;
+      transform: scale(1.08);
+      box-shadow: 0 0 15px rgba(251, 191, 36, 0.75);
+    }
+
+    /* PÁGINA IZQUIERDA: CONTENIDO */
+    .left-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid rgba(217, 119, 6, 0.6);
+      padding-bottom: 7px;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 5;
+    }
+    .left-header h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+    }
+    .left-header .badge-semana {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--gold-bright);
+      background: rgba(217, 119, 6, 0.2);
+      border: 1px solid rgba(217, 119, 6, 0.5);
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    /* MINI CALENDARIO MENSUAL */
+    .mini-calendar-box {
+      background: rgba(18, 14, 10, 0.85);
+      border: 1.2px solid rgba(217, 119, 6, 0.4);
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 5;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+    .mini-calendar-title {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--gold-light);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .mini-cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+      text-align: center;
+    }
+    .cal-h {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--gold-primary);
+      padding-bottom: 2px;
+    }
+    .cal-d {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #94a3b8;
+      padding: 2px 0;
+      border-radius: 3px;
+    }
+    .cal-d.active-week {
+      background: rgba(217, 119, 6, 0.4);
+      color: #ffffff;
+      font-weight: 800;
+      border: 1px solid var(--gold-light);
+    }
+
+    /* HORÓSCOPO / ENERGÍA ASTRAL */
+    .horoscope-box-dark {
+      background: linear-gradient(135deg, rgba(28, 20, 12, 0.9), rgba(18, 13, 8, 0.95));
+      border: 1.2px solid rgba(217, 119, 6, 0.5);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      position: relative;
+      z-index: 5;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+    .zodiac-symbol-dark {
+      font-size: 26px;
+      color: var(--gold-light);
+      text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+    }
+    .horoscope-content h5 {
+      font-family: 'Cinzel', serif;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--gold-bright);
+      margin-bottom: 3px;
+    }
+    .horoscope-content p {
+      font-size: 13px;
+      line-height: 1.35;
+      color: #e2e8f0;
+      font-style: italic;
+    }
+
+    /* DEDICATORIA PERSONALIZADA (FONDO OSCURO NOBLE, SIN BLANCO) */
+    .dedication-card-dark {
+      background: linear-gradient(135deg, rgba(22, 16, 10, 0.95), rgba(14, 10, 6, 0.98));
+      border: 1.5px solid rgba(217, 119, 6, 0.6);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-top: auto;
+      position: relative;
+      z-index: 5;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.8);
+    }
+    .dedication-card-dark .greet-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--gold-bright);
+      margin-bottom: 4px;
+      font-style: italic;
+    }
+    .dedication-card-dark .dedication-text {
+      font-size: 13px;
+      line-height: 1.35;
+      color: #f1f5f9;
+      font-style: italic;
+    }
+    .seal-row-dark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px dashed rgba(217, 119, 6, 0.4);
+    }
+    .wax-badge-dark {
+      font-size: 18px;
+    }
+    .sig-text-dark {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+
+    /* PÁGINA DERECHA: PLANIFICADOR SEMANAL + FOTO EN PRIMER PLANO DE FONDO */
+    .right-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid rgba(217, 119, 6, 0.6);
+      padding-bottom: 7px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 5;
+    }
+    .right-header h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+    }
+
+    /* MARCA DE AGUA EN PRIMER PLANO DE FONDO DE ARANTXA */
+    .page-photo-watermark {
+      position: absolute;
+      top: 52%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 430px;
+      height: 530px;
+      background: url("chistera_3d_oficial_mr_jouli.png") center center / contain no-repeat;
+      opacity: 0.38;
+      filter: drop-shadow(0 0 25px rgba(0, 0, 0, 0.95)) contrast(1.18) brightness(0.95);
+      pointer-events: none;
+      z-index: 2;
+      transition: opacity 0.3s;
+    }
+
+    /* FILAS DE PLANIFICACIÓN SEMANAL AMPLIAS Y CÓMODAS */
+    .schedule-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      justify-content: space-evenly;
+      position: relative;
+      z-index: 5;
+      margin: 4px 0;
+    }
+
+    .day-row-dark {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: rgba(14, 10, 6, 0.72);
+      backdrop-filter: blur(5px);
+      padding: 9px 14px;
+      border-radius: 9px;
+      border: 1.5px solid rgba(217, 119, 6, 0.55);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.7);
+      transition: all 0.2s;
+    }
+
+    .day-row-dark:hover, .day-row-dark:focus-within {
+      border-color: var(--gold-light);
+      background: rgba(25, 18, 12, 0.92);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+      transform: translateX(3px);
+    }
+
+    .day-badge-dark {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--gold-bright);
+      min-width: 95px;
+      letter-spacing: 0.5px;
+    }
+    .day-badge-dark small {
+      font-size: 10px;
+      color: var(--gold-light);
+      opacity: 0.85;
+      font-weight: 600;
+    }
+
+    .day-input-dark {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-bottom: 1px dotted rgba(217, 119, 6, 0.5);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: #ffffff;
+      outline: none;
+      padding: 2px 6px;
+      cursor: text;
+      transition: border-color 0.2s;
+    }
+    .day-input-dark::placeholder {
+      color: #94a3b8;
+      font-style: italic;
+      font-weight: 500;
+      opacity: 0.75;
+    }
+    .day-input-dark:focus {
+      border-bottom: 1.5px solid var(--gold-light);
+      color: #ffffff;
+    }
+
+    .page-footer-info-dark {
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      color: var(--gold-light);
+      padding-top: 6px;
+      border-top: 1px solid rgba(217, 119, 6, 0.4);
+      position: relative;
+      z-index: 5;
+    }
+
+    .footer-nav-btn {
+      background: rgba(217, 119, 6, 0.25);
+      border: 1.2px solid rgba(217, 119, 6, 0.6);
+      color: var(--gold-bright);
+      font-family: 'Cinzel', serif;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .footer-nav-btn:hover {
+      background: var(--gold-light);
+      color: #000;
+      transform: scale(1.08);
+      box-shadow: 0 0 12px rgba(251, 191, 36, 0.7);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA DE CONTROL SUPERIOR -->
+  <div class="top-toolbar">
+    <div class="title-brand">
+      <span>🎩</span>
+      <span>AGENDA MÁGICA 2027 · EL CRISOL</span>
+    </div>
+
+    <!-- NAVEGADOR DE SEMANAS -->
+    <div class="nav-pill-group" id="topNavGroup">
+      <button class="nav-pill-btn" onclick="cambiarSemana(-1)" title="Semana anterior">◀</button>
+      <span class="nav-pill-text" id="topSemanaLabel">SEMANA 01 / 52</span>
+      <button class="nav-pill-btn" onclick="cambiarSemana(1)" title="Semana siguiente">▶</button>
+    </div>
+
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <button class="btn-action" id="btnToggleLibro" onclick="alternarLibro()">
+        <span id="btnIcon">📕</span> <span id="btnText">CERRAR LIBRO</span>
+      </button>
+      <button class="btn-action" style="background: rgba(217,119,6,0.25); color: var(--gold-light); border: 1px solid var(--gold-light);" onclick="guardarTodoManual()">
+        💾 GUARDAR
+      </button>
+    </div>
+  </div>
+
+  <!-- ESCENARIO PRINCIPAL -->
+  <div class="stage-container">
+    
+    <!-- BOTÓN LATERAL ANTERIOR -->
+    <button class="float-nav-btn float-prev" id="btnFloatPrev" onclick="cambiarSemana(-1)" title="Página anterior (Semana anterior)">◀</button>
+
+    <!-- WRAPPER DEL LIBRO -->
+    <div class="book-wrapper">
+
+      <!-- CUBIERTA FOTOGRÁFICA CERRADA -->
+      <div class="cover-closed-stage" id="cubiertaLibro" onclick="alternarLibro()" style="display:none;">
+        <div class="click-prompt">✨ HAZ CLIC PARA ABRIR LA AGENDA ✨</div>
+      </div>
+
+      <!-- INTERIOR DEL LIBRO (ESTADO ABIERTO) -->
+      <div class="book-interior" id="interiorLibro" style="display:flex;">
+        <div class="book-spine-crease"></div>
+
+        <!-- PÁGINA IZQUIERDA (CLIC DIRECTO PASA A SEMANA ANTERIOR) -->
+        <div class="page left" onclick="manejarClicPagina(event, -1)" title="Haz clic o rueda el ratón hacia arriba para ir a la semana anterior">
+          <div class="left-header">
+            <button class="page-flip-header-btn" onclick="cambiarSemana(-1)" title="Semana anterior">◀ ANTERIOR</button>
+            <h3 id="mesTitulo">ENERO 2027</h3>
+            <span class="badge-semana" id="semanaBadge">SEMANA 01</span>
+          </div>
+
+          <!-- MINI CALENDARIO -->
+          <div class="mini-calendar-box">
+            <div class="mini-calendar-title">CALENDARIO MENSUAL DE ENFOQUE</div>
+            <div class="mini-cal-grid" id="miniCalGrid"></div>
+          </div>
+
+          <!-- HORÓSCOPO / ENERGÍA ASTRAL -->
+          <div class="horoscope-box-dark">
+            <div class="zodiac-symbol-dark" id="zodiacIcon">♑</div>
+            <div class="horoscope-content">
+              <h5 id="horoscopoTitulo">ENERGÍA ASTRAL · ENERO 2027</h5>
+              <p id="horoscopoTexto">Comienzo firme y lúcido. Las decisiones que tomes hoy cimentarán tus mayores conquistas del año.</p>
+            </div>
+          </div>
+
+          <!-- DEDICATORIA PERSONALIZADA -->
+          <div class="dedication-card-dark">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <div id="avatarMini" style="width: 48px; height: 48px; min-width: 48px; border-radius: 50%; border: 2px solid var(--gold-light); background: url('chistera_3d_oficial_mr_jouli.png') center center/cover; box-shadow: 0 4px 10px rgba(0,0,0,0.7);"></div>
+              <div>
+                <div class="greet-name">Querido Santi,</div>
+                <div class="dedication-text">
+                  «Que este nuevo año 2027 te traiga ilusión renovada, salud y éxitos en cada uno de tus caminos. Tu determinación y alegría hacen que cualquier meta esté al alcance de la mano.»
+                </div>
+              </div>
+            </div>
+            <div class="seal-row-dark">
+              <div class="wax-badge-dark">🎩</div>
+              <div class="sig-text-dark">
+                <div>Ismael G. &amp; Grimax</div>
+                <div style="font-size:9px; color:#94a3b8; font-family:sans-serif; font-weight:700;">EL CRISOL · CASTRO URDIALES</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="page-footer-info-dark">
+            <button class="footer-nav-btn" onclick="cambiarSemana(-1)">◀ SEMANA ANTERIOR</button>
+            <span>EL CRISOL 2027</span>
+          </div>
+        </div>
+
+        <!-- PÁGINA DERECHA (CLIC DIRECTO PASA A SEMANA SIGUIENTE) -->
+        <div class="page right" onclick="manejarClicPagina(event, 1)" title="Haz clic o rueda el ratón hacia abajo para ir a la semana siguiente">
+          <!-- MARCA DE AGUA FOTOGRÁFICA DE FONDO EN PRIMER PLANO -->
+          <div class="page-photo-watermark" id="pageWatermark"></div>
+
+          <div class="right-header">
+            <h4>PLANIFICADOR SEMANAL</h4>
+            <button class="page-flip-header-btn" onclick="cambiarSemana(1)" title="Semana siguiente">SIGUIENTE ▶</button>
+          </div>
+
+          <!-- FILAS DE PLANIFICACIÓN -->
+          <div class="schedule-grid" id="scheduleGrid"></div>
+
+          <div class="page-footer-info-dark">
+            <span>Agenda Mágica 2027 · Edición Santi</span>
+            <button class="footer-nav-btn" onclick="cambiarSemana(1)">
+              <span id="numPagina" style="font-weight:800;">PÁG. 01 DE 52</span> ▶
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- BOTÓN LATERAL SIGUIENTE -->
+    <button class="float-nav-btn float-next" id="btnFloatNext" onclick="cambiarSemana(1)" title="Página siguiente (Semana siguiente)">▶</button>
+
+  </div>
+
+  <script>
+    let libroAbierto = true;
+    let semanaNum = 1;
+
+    const MESES = [
+      "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO",
+      "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"
+    ];
+
+    const HOROSCOPOS = [
+      { tit: "ENERGÍA ASTRAL · ENERO 2027", icon: "♑", txt: "Comienzo firme y lúcido. Las decisiones que tomes hoy cimentarán tus mayores conquistas del año." },
+      { tit: "ENERGÍA ASTRAL · FEBRERO 2027", icon: "♒", txt: "Creatividad e intuición al alza. Confía en tu instinto y da el paso en tus proyectos pendientes." },
+      { tit: "ENERGÍA ASTRAL · MARZO 2027", icon: "♓", txt: "Renovación primaveral. Tu energía vital se multiplica y el entorno responde a tu determinación." },
+      { tit: "ENERGÍA ASTRAL · ABRIL 2027", icon: "♈", txt: "Tiempo de expansión y alianzas clave. La perseverancia diaria se transforma en resultados visibles." },
+      { tit: "ENERGÍA ASTRAL · MAYO 2027", icon: "♉", txt: "Equilibrio y templanza. Saborea cada pequeño avance y mantén el foco en lo esencial." },
+      { tit: "ENERGÍA ASTRAL · JUNIO 2027", icon: "♊", txt: "Plenitud y luz solar. Mes de celebración, energía contagiosa y metas superadas con éxito." },
+      { tit: "ENERGÍA ASTRAL · JULIO 2027", icon: "♋", txt: "Pausa activa y descanso reparador. Recarga fuerzas junto al mar y proyecta el segundo semestre." },
+      { tit: "ENERGÍA ASTRAL · AGOSTO 2027", icon: "♌", txt: "Pasión y vitalidad. Disfruta intensamente de cada jornada junto a las personas que suman en tu vida." },
+      { tit: "ENERGÍA ASTRAL · SEPTIEMBRE 2027", icon: "♍", txt: "Nuevo impulso estratégico. Es el momento perfecto para materializar los planes más ambiciosos." },
+      { tit: "ENERGÍA ASTRAL · OCTUBRE 2027", icon: "♎", txt: "Cosecha y consolidación. La constancia demostrada rinde frutos y abre caminos de prestigio." },
+      { tit: "ENERGÍA ASTRAL · NOVIEMBRE 2027", icon: "♏", txt: "Foco y serenidad. Momento ideal para cerrar acuerdos duraderos y celebrar tu crecimiento." },
+      { tit: "ENERGÍA ASTRAL · DICIEMBRE 2027", icon: "♐", txt: "Culminación de victorias. Un año completado con orgullo, gratitud y la mirada puesta en nuevos horizontes." }
+    ];
+
+    // SONIDO WEB AUDIO API
+    let audioCtx = null;
+    function sonarPasoPagina() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(160, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.0, audioCtx.currentTime + 0.1);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.1);
+      } catch (e) {}
+    }
+
+    // CÁLCULO DE FECHAS 2027
+    function obtenerDiasSemana(sNum) {
+      const base = new Date(2027, 0, 4);
+      base.setDate(base.getDate() + (sNum - 1) * 7);
+      const nombresDias = ["LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB", "DOM"];
+      const dias = [];
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(base);
+        d.setDate(base.getDate() + i);
+        dias.push({
+          nombre: nombresDias[i],
+          dia: d.getDate(),
+          mes: MESES[d.getMonth()],
+          mesIdx: d.getMonth()
+        });
+      }
+      return dias;
+    }
+
+    // RENDERIZAR SEMANA
+    function renderizarSemana(sNum) {
+      const dias = obtenerDiasSemana(sNum);
+      const sStr = String(sNum).padStart(2, '0');
+
+      const mesActual = dias[3].mes;
+      const mesIdx = dias[3].mesIdx;
+      document.getElementById('mesTitulo').innerText = `${mesActual} 2027`;
+      document.getElementById('semanaBadge').innerText = `SEMANA ${sStr}`;
+      document.getElementById('numPagina').innerText = `PÁG. ${sStr} DE 52`;
+      const topL = document.getElementById('topSemanaLabel'); 
+      if (topL) topL.innerText = `SEMANA ${sStr} / 52`;
+
+      const horo = HOROSCOPOS[mesIdx];
+      document.getElementById('horoscopoTitulo').innerText = horo.tit;
+      document.getElementById('horoscopoTexto').innerText = horo.txt;
+      document.getElementById('zodiacIcon').innerText = horo.icon;
+
+      renderizarMiniCalendario(2027, mesIdx, dias);
+
+      // Renderizar días de la semana
+      const grid = document.getElementById('scheduleGrid');
+      let htmlRows = '';
+
+      for (let i = 0; i < 5; i++) {
+        const d = dias[i];
+        const key = `santi_nota_s${sNum}_d${i}`;
+        const val = localStorage.getItem(key) || '';
+        const diaStr = String(d.dia).padStart(2, '0');
+        const ph = i === 0 ? 'Prioridad principal de la semana...' : 'Cita, llamada o proyecto...';
+        htmlRows += `
+          <div class="day-row-dark">
+            <div class="day-badge-dark">${d.nombre} ${diaStr} <small>${d.mes.substring(0,3)}</small></div>
+            <input type="text" class="day-input-dark" placeholder="${ph}" value="${val.replace(/"/g, '&quot;')}" oninput="guardarNota(${sNum}, ${i}, this.value)">
+          </div>
+        `;
+      }
+
+      // Fin de semana (SÁB-DOM) en negro obsidiana elegante
+      const dSab = dias[5];
+      const dDom = dias[6];
+      const keyFin = `santi_nota_s${sNum}_fin`;
+      const valFin = localStorage.getItem(keyFin) || '';
+      htmlRows += `
+        <div class="day-row-dark">
+          <div class="day-badge-dark">SÁB-DOM <small>${String(dSab.dia).padStart(2,'0')}-${String(dDom.dia).padStart(2,'0')} ${dDom.mes.substring(0,3)}</small></div>
+          <input type="text" class="day-input-dark" placeholder="Disfrutar, pasear y recargar energía..." value="${valFin.replace(/"/g, '&quot;')}" oninput="guardarNotaFin(${sNum}, this.value)">
+        </div>
+      `;
+
+      grid.innerHTML = htmlRows;
+    }
+
+    // MINI CALENDARIO MENSUAL
+    function renderizarMiniCalendario(year, monthIdx, semanaDias) {
+      const diasSemana = ["L", "M", "X", "J", "V", "S", "D"];
+      let html = diasSemana.map(d => `<div class="cal-h">${d}</div>`).join('');
+
+      const primerDiaMes = new Date(year, monthIdx, 1);
+      let startDay = primerDiaMes.getDay() - 1;
+      if (startDay < 0) startDay = 6;
+      const ultimoDiaMes = new Date(year, monthIdx + 1, 0).getDate();
+
+      for (let i = 0; i < startDay; i++) {
+        html += `<div class="cal-d" style="opacity:0.2;">·</div>`;
+      }
+
+      const diasSemanaNums = semanaDias.filter(d => d.mesIdx === monthIdx).map(d => d.dia);
+
+      for (let d = 1; d <= ultimoDiaMes; d++) {
+        const isActive = diasSemanaNums.includes(d);
+        const cls = isActive ? "cal-d active-week" : "cal-d";
+        html += `<div class="${cls}">${d}</div>`;
+      }
+
+      document.getElementById('miniCalGrid').innerHTML = html;
+    }
+
+    // PERSISTENCIA LOCALSTORAGE
+    function guardarNota(s, d, val) {
+      localStorage.setItem(`santi_nota_s${s}_d${d}`, val);
+    }
+    function guardarNotaFin(s, val) {
+      localStorage.setItem(`santi_nota_s${s}_fin`, val);
+    }
+    function guardarTodoManual() {
+      sonarPasoPagina();
+      alert("✨ ¡Todas tus notas y prioridades han quedado guardadas en tu navegador!");
+    }
+
+    // CLIC INTUITIVO EN CUALQUIER MARGEN DE PÁGINA
+    function manejarClicPagina(e, dir) {
+      // Si el usuario clica dentro de un input para escribir texto, no pasa página
+      if (e.target.tagName === 'INPUT') {
+        return;
+      }
+      cambiarSemana(dir);
+    }
+
+    // ABRIR / CERRAR LIBRO
+    function alternarLibro() {
+      sonarPasoPagina();
+      libroAbierto = !libroAbierto;
+      const cubierta = document.getElementById('cubiertaLibro');
+      const interior = document.getElementById('interiorLibro');
+      const topNav = document.getElementById('topNavGroup');
+      const btnPrev = document.getElementById('btnFloatPrev');
+      const btnNext = document.getElementById('btnFloatNext');
+      const btnText = document.getElementById('btnText');
+      const btnIcon = document.getElementById('btnIcon');
+
+      if (libroAbierto) {
+        cubierta.style.display = 'none';
+        interior.style.display = 'flex';
+        topNav.style.display = 'flex';
+        btnPrev.style.display = 'flex';
+        btnNext.style.display = 'flex';
+        btnText.innerText = 'CERRAR LIBRO';
+        btnIcon.innerText = '📕';
+        renderizarSemana(semanaNum);
+      } else {
+        cubierta.style.display = 'flex';
+        interior.style.display = 'none';
+        topNav.style.display = 'none';
+        btnPrev.style.display = 'none';
+        btnNext.style.display = 'none';
+        btnText.innerText = 'ABRIR AGENDA';
+        btnIcon.innerText = '📖';
+      }
+    }
+
+    // NAVEGACIÓN ENTRE SEMANAS
+    function cambiarSemana(delta) {
+      if (!libroAbierto) alternarLibro();
+      semanaNum += delta;
+      if (semanaNum < 1) semanaNum = 52;
+      if (semanaNum > 52) semanaNum = 1;
+      sonarPasoPagina();
+      renderizarSemana(semanaNum);
+
+      // Efecto visual de paso de página
+      const intLibro = document.getElementById('interiorLibro');
+      intLibro.classList.remove('page-flip-anim');
+      void intLibro.offsetWidth;
+      intLibro.classList.add('page-flip-anim');
+    }
+
+    // TECLAS DE FLECHA
+    window.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'ArrowLeft') cambiarSemana(-1);
+      if (e.key === 'ArrowRight') cambiarSemana(1);
+    });
+
+    // RUEDA DEL RATÓN Y TRACKPAD (SCROLL SUAVE Y SENSIBLE)
+    let wheelLock = false;
+    window.addEventListener('wheel', function(e) {
+      if (!libroAbierto) return;
+      if (wheelLock) return;
+      const dX = e.deltaX;
+      const dY = e.deltaY;
+      if (Math.abs(dX) > 15 || Math.abs(dY) > 15) {
+        wheelLock = true;
+        if (dX > 15 || dY > 15) {
+          cambiarSemana(1);
+        } else {
+          cambiarSemana(-1);
+        }
+        setTimeout(() => { wheelLock = false; }, 220);
+      }
+    }, { passive: true });
+
+    // ARRASTRE CON RATÓN (CLICK & DRAG PARA PASAR PÁGINA)
+    let startDragX = 0;
+    let isMouseDown = false;
+    window.addEventListener('mousedown', function(e) {
+      if (e.target.tagName === 'INPUT') return;
+      isMouseDown = true;
+      startDragX = e.clientX;
+    });
+    window.addEventListener('mouseup', function(e) {
+      if (!isMouseDown) return;
+      isMouseDown = false;
+      const diffX = e.clientX - startDragX;
+      if (diffX < -40) {
+        cambiarSemana(1); // arrastrar hacia la izquierda pasa a siguiente página
+      } else if (diffX > 40) {
+        cambiarSemana(-1); // arrastrar hacia la derecha vuelve a página anterior
+      }
+    });
+
+    // INICIALIZACIÓN
+    window.addEventListener('DOMContentLoaded', () => {
+      renderizarSemana(1);
+    });
+  </script>
+</body>
+</html>
